@@ -1,4 +1,4 @@
-INSERT INTO railway (created_at, color, name, pantone_value, updated_at, year)
+INSERT INTO color(created_at, color, name, pantone_value, updated_at, year)
 VALUES
     (CURRENT_TIMESTAMP, 'FF0000', 'Red', '14-4400', CURRENT_TIMESTAMP, 2023),
     (CURRENT_TIMESTAMP, '0000FF', 'Blue', '15-4200', CURRENT_TIMESTAMP, 2023),
