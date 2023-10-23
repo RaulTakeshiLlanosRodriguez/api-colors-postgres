@@ -41,7 +41,9 @@ public class ColorController {
 		
 		if(colorService.isValidHexColorAndPantoneValue(color.getColor(), color.getPantoneValue())) {
 			color.setColor(color.getColor().replace("#", ""));
-			return ResponseEntity.status(HttpStatus.CREATED).body(color);
+			Color colorGuardado = colorService.saveColor(color);
+			colorGuardado.setColor("#"+color.getColor());
+			return ResponseEntity.status(HttpStatus.CREATED).body(colorGuardado);
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(color);
 	}
@@ -85,12 +87,18 @@ public class ColorController {
 	
 	@PutMapping("/{id}")
 	ResponseEntity<?> updateColor(@PathVariable long id, @RequestBody Color color){
-		
+		Color colorData = colorService.findById(id).get();
 	    if (colorService.isValidHexColorAndPantoneValue(color.getColor(), color.getPantoneValue())) {
+	    	
 	    	color.setColor(color.getColor().replace("#", ""));
-			Color colorData = colorService.updateColor(color);
-			colorData.setColor("#"+color.getColor());
-			return new ResponseEntity<>(colorData,HttpStatus.OK);
+	    	colorData.setName(color.getName());
+	    	colorData.setColor(color.getColor());
+	    	colorData.setPantoneValue(color.getPantoneValue());
+	    	colorData.setYear(color.getYear());
+			Color colorActualizado = colorService.updateColor(colorData);
+			colorActualizado.setColor("#"+color.getColor());
+
+			return new ResponseEntity<>(colorActualizado,HttpStatus.OK);
 	    } else {
 	        // Devuelve una respuesta BAD_REQUEST con un mensaje de error
 	        String mensajeError = "Color y PantoneValue no son válidos";

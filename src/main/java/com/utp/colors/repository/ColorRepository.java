@@ -13,4 +13,5 @@ public interface ColorRepository extends JpaRepository<Color, Long>{
 	
 	@Query("SELECT c FROM Color c ORDER BY c.updatedAt DESC")
 	Page<Color> findAllOrderByDateDesc(Pageable pageable);
+	
 }
